@@ -97,6 +97,10 @@ async function app() {
                 const employee_to_delete_id = await promptEmployeeChoice('Select an employee to remove:');
                 await database.removeEmployee(employee_to_delete_id);
                 break;
+
+                case 'Quit Application':
+                continueExecution = false;
+                break;
         }
     }
 
