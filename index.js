@@ -30,20 +30,28 @@ async function app() {
                 const departments = await database.viewDepartments();
                 console.table(departments);
                 break;
+
+
             case 'Show All Roles':
                 const roles = await database.viewRoles();
                 console.table(roles);
                 break;
+
+
             case 'Show All Employees':
                 const employees = await database.viewEmployees();
                 console.table(employees);
                 break;
+
+
             case 'Add a Department':
                 const {name} = await inquirer.prompt(
                     {type: 'input', name: 'title', message: 'Enter the new Department name:'}
                 );
                 await database.additionalDepartment(name);
                 break; 
+
+
             case 'Add a Role':
                 const newRole = await inquirer.prompt([
                     {type: 'input', name: 'title', message: 'Enter the new Role name:'},
@@ -51,7 +59,29 @@ async function app() {
                 ]);
                 const department_id = await promptDepartmentChoice();
                 await database.additionalRole(newRole.title, newRole.salary, department_id);
-                break;              
+                break;
+                
+
+                case 'Add an Employee':
+                    const newEmployee = await inquirer.prompt([
+                        { type: 'input', name: 'first_name', message: 'Add the first name:' },
+                        { type: 'input', name: 'last_name', message: 'Add the last name:' },
+                    ]);
+                    const employee_role_id = await promptRoleChoice();
+                    const manager_id = await promptEmployeeChoice('Select Manager for new Employee:');
+                    await database.additionalEmployee(newEmployee.first_name, newEmployee.last_name, employee_role_id, manager_id);
+
+                case 'Change an Employee Role':
+                    const employee_to_update_id = await promptEmployeeChoice('Select an Employee:');
+                    const new_employee_role_id = await promptRoleChoice();
+                    await database.changeEmployeeRole(new_employee_role_id, employee_to_update_id);
+                    break;
+
+                case 'Change an Employees Manager':
+                    const employee_to_update_manager_id = await promptEmployeeChoice('Select an employee:');
+                    const manager_to_update_id = await promptEmployeeChoice('Select a new Manager for this employee:');
+                    await database.changeEmployeeManager(employee_to_update_manager_id, manager_to_update_id);
+                    break;              
         }
     }
 };
