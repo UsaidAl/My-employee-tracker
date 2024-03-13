@@ -25,5 +25,33 @@ async function app() {
                 'Quit Application'
             ],
         });
+        switch (action) {
+            case 'Show All Departments':
+                const departments = await database.viewDepartments();
+                console.table(departments);
+                break;
+            case 'Show All Roles':
+                const roles = await database.viewRoles();
+                console.table(roles);
+                break;
+            case 'Show All Employees':
+                const employees = await database.viewEmployees();
+                console.table(employees);
+                break;
+            case 'Add a Department':
+                const {name} = await inquirer.prompt(
+                    {type: 'input', name: 'title', message: 'Enter the new Department name:'}
+                );
+                await database.additionalDepartment(name);
+                break; 
+            case 'Add a Role':
+                const newRole = await inquirer.prompt([
+                    {type: 'input', name: 'title', message: 'Enter the new Role name:'},
+                    {type: 'input', name: 'salary', message: 'Enter the Salary for this new Role:'},
+                ]);
+                const department_id = await promptDepartmentChoice();
+                await database.additionalRole(newRole.title, newRole.salary, department_id);
+                break;              
+        }
     }
 };
