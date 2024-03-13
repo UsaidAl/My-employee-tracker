@@ -27,53 +27,68 @@ async function app() {
         });
         switch (action) {
             case 'Show All Departments':
+                // Retrieve and display all departments from the database
                 const departments = await database.viewDepartments();
                 console.table(departments);
                 break;
 
 
             case 'Show All Roles':
+                // Retrieve and display all roles from the database
                 const roles = await database.viewRoles();
                 console.table(roles);
                 break;
 
 
             case 'Show All Employees':
+                // Retrieve and display all employees from the database
                 const employees = await database.viewEmployees();
                 console.table(employees);
                 break;
 
 
             case 'Add a Department':
+                // Prompt the user to enter a new department name
                 const {name} = await inquirer.prompt(
                     {type: 'input', name: 'title', message: 'Enter the new Department name:'}
                 );
+                // Add the new department to the database
                 await database.additionalDepartment(name);
                 break; 
 
 
             case 'Add a Role':
+                  // Prompt the user to enter a new role's name and salary
                 const newRole = await inquirer.prompt([
                     {type: 'input', name: 'title', message: 'Enter the new Role name:'},
                     {type: 'input', name: 'salary', message: 'Enter the Salary for this new Role:'},
                 ]);
+                // Prompt the user to select a department for the new role
                 const department_id = await promptDepartmentChoice();
+                // Add the new role to the database
                 await database.additionalRole(newRole.title, newRole.salary, department_id);
                 break;
 
 
             case 'Add an Employee':
+                 // Prompt the user to enter a new employee's first name and last name
                     const newEmployee = await inquirer.prompt([
                         { type: 'input', name: 'first_name', message: 'Add the first name:' },
                         { type: 'input', name: 'last_name', message: 'Add the last name:' },
                     ]);
+                     // Prompt the user to select a role for the new employee
                     const employee_role_id = await promptRoleChoice();
+                    // Prompt the user to select a manager for the new employee
                     const manager_id = await promptEmployeeChoice('Select Manager for new Employee:');
+                    // Add the new employee to the database
                     await database.additionalEmployee(newEmployee.first_name, newEmployee.last_name, employee_role_id, manager_id);
 
             case 'Change an Employee Role':
+                 // Prompt the user to select an employee to update
                     const employee_to_update_id = await promptEmployeeChoice('Select an Employee:');
+                    // Prompt the user to select a new role for the employee
                     const new_employee_role_id = await promptRoleChoice();
+                    // Update the employee's role in the database
                     await database.changeEmployeeRole(new_employee_role_id, employee_to_update_id);
                     break;
 
