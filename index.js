@@ -102,3 +102,61 @@ async function app() {
 
     process.exit();
 };
+
+
+async function promptDepartmentChoice() {
+    const allDepartments = await database.viewDepartments();
+    const departmentOptions = allDepartments.map((department) => ({
+        name: department.name,
+        value: department.id,
+    }));
+
+    const {department_id} = await inquirer.prompt({
+        type: 'list',
+        name: 'department_id',
+        message: 'Select the department:',
+        choices: departmentOptions,
+    });
+
+    return department_id;
+}
+
+async function promptRoleChoice() {
+    const allRoles = await database.viewRoles();
+    const roleOptions = allRoles.map((role) => ({
+        name: role.title,
+        value: role.id,
+    }));
+
+    const { role_id } = await inquirer.prompt({
+        type: 'list',
+        name: 'role_id',
+        message: 'Select the role:',
+        choices: roleOptions,
+    });
+
+    return role_id;
+}
+
+async function promptEmployeeChoice(message) {
+    const allEmployees = await database.viewEmployees();
+    const employeeOptions =
+        [
+            {name: 'None', value: null},
+            ...allEmployees.map((employee) => ({
+                name: employee.first_name + " " + employee.last_name,
+                value: employee.id,
+            })),
+        ];
+
+    const { employee_id } = await inquirer.prompt({
+        type: 'list',
+        name: 'employee_id',
+        message: message,
+        choices: employeeOptions,
+    });
+
+    return employee_id;
+}
+
+app();
