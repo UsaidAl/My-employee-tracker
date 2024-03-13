@@ -60,9 +60,9 @@ async function app() {
                 const department_id = await promptDepartmentChoice();
                 await database.additionalRole(newRole.title, newRole.salary, department_id);
                 break;
-                
 
-                case 'Add an Employee':
+
+            case 'Add an Employee':
                     const newEmployee = await inquirer.prompt([
                         { type: 'input', name: 'first_name', message: 'Add the first name:' },
                         { type: 'input', name: 'last_name', message: 'Add the last name:' },
@@ -71,17 +71,34 @@ async function app() {
                     const manager_id = await promptEmployeeChoice('Select Manager for new Employee:');
                     await database.additionalEmployee(newEmployee.first_name, newEmployee.last_name, employee_role_id, manager_id);
 
-                case 'Change an Employee Role':
+            case 'Change an Employee Role':
                     const employee_to_update_id = await promptEmployeeChoice('Select an Employee:');
                     const new_employee_role_id = await promptRoleChoice();
                     await database.changeEmployeeRole(new_employee_role_id, employee_to_update_id);
                     break;
 
-                case 'Change an Employees Manager':
+            case 'Change an Employees Manager':
                     const employee_to_update_manager_id = await promptEmployeeChoice('Select an employee:');
                     const manager_to_update_id = await promptEmployeeChoice('Select a new Manager for this employee:');
                     await database.changeEmployeeManager(employee_to_update_manager_id, manager_to_update_id);
-                    break;              
+                    break;
+                    
+            case 'Remove a Department':
+                const department_to_delete_id = await promptDepartmentChoice();
+                await database.removeDepartment(department_to_delete_id);
+                break;
+
+            case 'Remove a Role':
+                const role_to_delete_id = await promptRoleChoice();
+                await database.removeRole(role_to_delete_id);
+                break;
+
+            case 'Remove an Employee':
+                const employee_to_delete_id = await promptEmployeeChoice('Select an employee to remove:');
+                await database.removeEmployee(employee_to_delete_id);
+                break;
         }
     }
+
+    process.exit();
 };
