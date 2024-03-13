@@ -30,9 +30,45 @@ const viewEmployees = async () => {
     return rows;
 };
 
+// Function for additional departments
+const additionalDepartment = async (name) => {
+    const result = await connection.execute(
+        'INSERT INTO department (name) VALUES (?)', [name]
+    );
+    return result;
+};
+
+// Function for additional roles
+const additionalRole = async (title, salary, department_id) => {
+    const result = await connection.execute(
+        'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, department_id]
+    );
+    return result;
+};
+
+// Function for additional employees
+const additionalEmployee = async (first_name, last_name, role_id, manager_id) => {
+    const result = await connection.execute(
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [first_name, last_name, role_id, manager_id]
+    );
+    return result;
+};
+
+// Function to change the role of a selected employee
+const changeEmployeeRole = async (role_id, employee_id) => {
+    const result = await connection.execute(
+        'UPDATE employee SET role_id = ? WHERE id = ?', [role_id, employee_id]
+    );
+    return result;
+};
+
 
 module.exports = {
     viewDepartments,
     viewRoles,
-    viewEmployees
+    viewEmployees,
+    additionalDepartment,
+    additionalRole,
+    additionalEmployee,
+    changeEmployeeRole
 }
