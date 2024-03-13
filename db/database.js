@@ -62,6 +62,32 @@ const changeEmployeeRole = async (role_id, employee_id) => {
     return result;
 };
 
+// Function to change the manager of a selected employee
+const changeEmployeeManager = async (employee_id, manager_id) => {
+    const result = await connection.execute('UPDATE employee SET manager_id = ? where id = ?', [manager_id, employee_id]);
+    return result;
+};
+
+// Function for removing departments
+const removeDepartment = async (department_id) => {
+    await connection.execute('UPDATE ROLE SET department_id = null where department_id = ?', [department_id]);
+    const result = await connection.execute('DELETE from department where id = ? ', [department_id]);
+    return result;
+};
+
+// Function for removing roles
+const removeRole = async (role_id) => {
+    await connection.execute('update employee set role_id = null where role_id = ?', [role_id]);
+    const result = await connection.execute('DELETE from role where id = ? ', [role_id]);
+    return result;
+};
+
+// Function for removing employees
+const removeEmployee = async (employee_id) => {
+    await connection.execute('UPDATE employee SET manager_id = null where manager_id = ?', [employee_id]);
+    const result = await connection.execute('DELETE from employee where id = ? ', [employee_id]);
+    return result;
+};
 
 module.exports = {
     viewDepartments,
@@ -70,5 +96,9 @@ module.exports = {
     additionalDepartment,
     additionalRole,
     additionalEmployee,
-    changeEmployeeRole
-}
+    changeEmployeeRole,
+    changeEmployeeManager,
+    removeDepartment,
+    removeRole,
+    removeEmployee
+};
