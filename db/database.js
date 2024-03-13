@@ -13,19 +13,26 @@ const connection = mysql.createPool({
 });
 
 // Function to view all departments
-const viewAllDepartments = async () => {
+const viewDepartments = async () => {
     const [rows, fields] = await connection.execute('SELECT * FROM department');
     return rows;
 };
 
 // Function to view all roles
-const viewAllRoles = async () => {
+const viewRoles = async () => {
     const [rows, fields] = await connection.execute('SELECT * FROM role');
     return rows;
 };
 
 // Function to view all employees
-const viewAllEmployees = async () => {
+const viewEmployees = async () => {
     const [rows, fields] = await connection.execute('SELECT * FROM employee');
     return rows;
 };
+
+
+module.exports = {
+    viewDepartments,
+    viewRoles,
+    viewEmployees
+}
