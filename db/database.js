@@ -17,3 +17,15 @@ const viewAllDepartments = async () => {
     const [rows, fields] = await connection.execute('SELECT * FROM department');
     return rows;
 };
+
+// Function to view all roles
+const viewAllRoles = async () => {
+    const [rows, fields] = await connection.execute('SELECT * FROM role');
+    return rows;
+};
+
+// Function to view all employees
+const viewAllEmployees = async () => {
+    const [rows, fields] = await connection.execute('SELECT * FROM employee');
+    return rows;
+};
