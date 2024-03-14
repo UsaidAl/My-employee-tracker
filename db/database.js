@@ -14,22 +14,38 @@ const connection = mysql.createPool({
 
 // Function to view all departments
 const viewDepartments = async () => {
+    try {
   const [rows, fields] = await connection.execute(
-    "SELECT name FROM department"
+    "SELECT * FROM department"
   );
   return rows;
+    }catch (error) {
+        console.error("Error fetching departments:", error);
+        throw error;
+    }
+  
 };
 
 // Function to view all roles
 const viewRoles = async () => {
+    try {
   const [rows, fields] = await connection.execute("SELECT * FROM role");
   return rows.map((row) => row.name);
+    } catch (error) {
+        console.error("Error fetching roles:", error);
+        throw error;
+      }
 };
 
 // Function to view all employees
 const viewEmployees = async () => {
+    try {
   const [rows, fields] = await connection.execute("SELECT * FROM employee");
   return rows;
+    }catch (error) {
+        console.error("Error fetching employees:", error);
+        throw error;
+      }
 };
 
 // Function for additional departments
@@ -119,6 +135,9 @@ const removeEmployee = async (employee_id) => {
     [employee_id]
   );
   return result;
+
+
+   
 };
 
 module.exports = {
