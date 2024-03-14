@@ -5,7 +5,7 @@ const mysql = require('mysql2/promise');
 const connection = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'Usaid.123',
+    password: '',
     database: 'employees_db',
     waitForConnections: true,
     connectionLimit: 10,
@@ -14,14 +14,14 @@ const connection = mysql.createPool({
 
 // Function to view all departments
 const viewDepartments = async () => {
-    const [rows, fields] = await connection.execute('SELECT * FROM department');
+    const [rows, fields] = await connection.execute('SELECT name FROM department');
     return rows;
 };
 
 // Function to view all roles
 const viewRoles = async () => {
     const [rows, fields] = await connection.execute('SELECT * FROM role');
-    return rows;
+    return rows.map(row => row.name);
 };
 
 // Function to view all employees
@@ -32,8 +32,9 @@ const viewEmployees = async () => {
 
 // Function for additional departments
 const additionalDepartment = async (name) => {
+    const departmentName = name || null;
     const result = await connection.execute(
-        'INSERT INTO department (name) VALUES (?)', [name]
+        'INSERT INTO department (name) VALUES (?)', [departmentName]
     );
     return result;
 };
