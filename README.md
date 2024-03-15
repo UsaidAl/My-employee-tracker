@@ -32,5 +32,9 @@ Once you have these prerequisites in place, you should be able to run the employ
 
 ![screenshot](/screenshots/Show%20employees.png)
 
+## Link
+
+[Walkthrough](https://app.screencastify.com/v3/watch/K1pkGhZAIOFVOHokZtvG)
+
 
 
