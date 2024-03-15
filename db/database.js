@@ -29,12 +29,12 @@ const viewDepartments = async () => {
 // Function to view all roles
 const viewRoles = async () => {
     try {
-  const [rows, fields] = await connection.execute("SELECT * FROM role");
-  return rows.map((row) => row.name);
+        const [rows, fields] = await connection.execute("SELECT * FROM role");
+        return rows; // Return the entire row objects
     } catch (error) {
         console.error("Error fetching roles:", error);
         throw error;
-      }
+    }
 };
 
 // Function to view all employees
